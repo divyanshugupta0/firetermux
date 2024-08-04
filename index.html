@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FireFly Orbit Terminal</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: #1a1a1a;
+      color: #00ff00;
+      margin: 0;
+      padding: 0;
+    }
+
+    .terminal {
+      width: 80%;
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #000000;
+      border: 1px solid #00ff00;
+      border-radius: 5px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .terminal-header {
+      background-color: #000000;
+      color: #00ff00;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #00ff00;
+    }
+
+    .terminal-title {
+      font-size: 18px;
+    }
+
+    .terminal-controls {
+      font-size: 20px;
+    }
+
+    .terminal-body {
+      padding: 10px;
+      height: 300px;
+      overflow-y: auto;
+    }
+
+    .prompt {
+      color: #00ff00; /* Green color for prompt */
+    }
+
+    .output {
+      margin-top: 5px;
+    }
+
+    .command-input {
+      width: calc(100% - 20px);
+      margin: 10px;
+      padding: 5px;
+      font-size: 16px;
+      border: none;
+      background-color: #000000;
+      color: #00ff00;
+    }
+
+    .highlight {
+      color: #ff0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="terminal-header">
+      <span class="terminal-title">FireFly Orbit Terminal</span>
+      <div class="terminal-controls">
+        <span class="control minimize">-</span>
+        <span class="control fullscreen">⤢</span>
+        <span class="control close">×</span>
+      </div>
+    </div>
+    <div class="terminal-body" id="terminalBody">
+      <p>Welcome to FireFly Orbit Terminal. Type 'help' for commands.</p>
+    </div>
+    <input type="text" id="commandInput" class="command-input" autofocus>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const terminalBody = document.getElementById('terminalBody');
+      const commandInput = document.getElementById('commandInput');
+
+      let commandHistory = [];
+      let historyIndex = -1;
+
+      commandInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+          const command = commandInput.value.trim().toLowerCase();
+          if (command) {
+            commandHistory.push(command);
+            historyIndex = commandHistory.length - 1;
+            handleCommand(command);
+          }
+          commandInput.value = '';
+        } else if (event.key === 'ArrowUp') {
+          event.preventDefault();
+          if (historyIndex >= 0) {
+            commandInput.value = commandHistory[historyIndex];
+            historyIndex--;
+          }
+        } else if (event.key === 'ArrowDown') {
+          event.preventDefault();
+          if (historyIndex < commandHistory.length - 1) {
+            historyIndex++;
+            commandInput.value = commandHistory[historyIndex];
+          } else {
+            commandInput.value = '';
+            historyIndex = -1;
+          }
+        }
+      });
+    });
+
+    function handleCommand(command) {
+      const terminalBody = document.getElementById('terminalBody');
+      const outputParagraph = document.createElement('p');
+      outputParagraph.classList.add('output');
+
+      switch (command) {
+        case 'help':
+          outputParagraph.innerHTML = "Available commands: <span class='highlight'>troubleshoot</span>, <span class='highlight'>about</span>, <span class='highlight'>contact</span>";
+          break;
+        case 'troubleshoot':
+          displayTroubleshoot();
+          break;
+        case 'about':
+          outputParagraph.textContent = "FireFly Orbit Terminal. Version 1.0";
+          break;
+        case 'contact':
+          outputParagraph.textContent = "Contact us at support@fireflyorbit.com";
+          break;
+        default:
+          outputParagraph.textContent = `Command '${command}' not recognized. Type 'help' for commands.`;
+      }
+
+      terminalBody.appendChild(outputParagraph);
+      terminalBody.scrollTop = terminalBody.scrollHeight;
+    }
+
+    function displayTroubleshoot() {
+      const terminalBody = document.getElementById('terminalBody');
+      const troubleshootContent = `
+        <p><span class="highlight">Troubleshoot</span> - How can we assist you?</p>
+        <p>1. Issue with desktop interface</p>
+        <p>2. Performance issues</p>
+        <p>3. Other problems</p>
+        <p>Type the number of the issue you are experiencing.</p>
+      `;
+      terminalBody.innerHTML += troubleshootContent;
+    }
+  </script>
+</body>
+</html>
