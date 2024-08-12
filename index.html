@@ -3,26 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FireFly Orbit Terminal</title>
+  <title>Fire-Termux</title>
   <style>
     body {
       font-family: 'Courier New', Courier, monospace;
       background-color: #1a1a1a;
       color: #00ff00;
       margin: 0;
-      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; /* Full viewport height */
     }
-
+    
     .terminal {
       width: 80%;
       max-width: 800px;
-      margin: 20px auto;
       background-color: #000000;
       border: 1px solid #00ff00;
       border-radius: 5px;
       overflow: hidden;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      scrollbar-color:transparent ;
     }
+    
 
     .terminal-header {
       background-color: #000000;
@@ -61,7 +65,7 @@
       margin: 10px;
       padding: 5px;
       font-size: 16px;
-      border: none;
+      border: #ooff00;
       background-color: #000000;
       color: #00ff00;
     }
@@ -71,37 +75,37 @@
     }
   </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
   <div class="terminal">
     <div class="terminal-header">
       <span class="terminal-title">FireFly Orbit Terminal</span>
-      <div class="terminal-controls">
-        <span class="control minimize">-</span>
-        <span class="control fullscreen">⤢</span>
-        <span class="control close">×</span>
-      </div>
     </div>
     <div class="terminal-body" id="terminalBody">
-      <p>Welcome to FireFly Orbit Terminal. Type 'help' for commands.</p>
+      <p>Welcome to Fire-Termux. Type 'help' for commands.</p>
     </div>
-    <input type="text" id="commandInput" class="command-input" autofocus>
+    <input type="text" id="commandInput" class="command-input" placeholder="Enter here......" autofocus>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const terminalBody = document.getElementById('terminalBody');
       const commandInput = document.getElementById('commandInput');
-
+      
       let commandHistory = [];
       let historyIndex = -1;
-
+      let inTroubleshootMode = false; // Flag to indicate troubleshooting mode
+    
       commandInput.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
           const command = commandInput.value.trim().toLowerCase();
           if (command) {
             commandHistory.push(command);
             historyIndex = commandHistory.length - 1;
-            handleCommand(command);
+            if (inTroubleshootMode) {
+              handleIssue(command);
+            } else {
+              handleCommand(command);
+            }
           }
           commandInput.value = '';
         } else if (event.key === 'ArrowUp') {
@@ -122,44 +126,92 @@
         }
       });
     });
-
+    
     function handleCommand(command) {
       const terminalBody = document.getElementById('terminalBody');
       const outputParagraph = document.createElement('p');
       outputParagraph.classList.add('output');
-
+    
       switch (command) {
         case 'help':
-          outputParagraph.innerHTML = "Available commands: <span class='highlight'>troubleshoot</span>, <span class='highlight'>about</span>, <span class='highlight'>contact</span>";
+          outputParagraph.innerHTML = "Available commands: <span class='highlight'>a. troubleshoot</span>, <span class='highlight'>b. about</span>, <span class='highlight'>c. contact</span> <br> Enter alphabet only.";
           break;
-        case 'troubleshoot':
+        case 'a':
           displayTroubleshoot();
           break;
-        case 'about':
-          outputParagraph.textContent = "FireFly Orbit Terminal. Version 1.0";
+        case 'b':
+          outputParagraph.textContent = "FireFly Orbit Terminal. Version 1.0 with Boost System :-FireBoost";
           break;
-        case 'contact':
-          outputParagraph.textContent = "Contact us at support@fireflyorbit.com";
+        case 'c':
+          outputParagraph.textContent = "Contact us at fireflyindiainfo@gmail.com";
+          break;
+        case '1':
+          outputParagraph.innerHTML = "For issues with the desktop interface, visit: <a href='https://divyanshugupta0.github.io/desktopissue0258'>Desktop Interface Help</a>";
+          break;
+        case '2':
+          outputParagraph.innerHTML = "For performance issues, visit: <a href='https://divyanshugupta0.github.io/perform0258'>Performance Help</a>";
+          break;
+        case '3':
+          outputParagraph.innerHTML = "Issue with Taskbar, visit: <a href='https://divyanshugupta0.github.io/Taskbarissue0258'>Issue with taskbar Help</a>";
+          break;
+        case '4':
+          outputParagraph.innerHTML = "Issue with Backgrounds, visit: <a href='https://divyanshugupta0.github.io/IssueBackground0258'>Issue with Backgrounds Help</a>";
+          break;
+        case '5':
+          outputParagraph.innerHTML = "Facing Network Load, visit: <a href='https://divyanshugupta0.github.io/NetworkLoad0258'>Facing Network Load Help</a>";
+          break;
+        case '6':
+          outputParagraph.innerHTML = "Facing Issue with app opening, visit: <a href='https://divyanshugupta0.github.io/OpeningIssue0258'>Facing Issue with app opening Help</a>";
           break;
         default:
           outputParagraph.textContent = `Command '${command}' not recognized. Type 'help' for commands.`;
       }
-
+    
       terminalBody.appendChild(outputParagraph);
       terminalBody.scrollTop = terminalBody.scrollHeight;
     }
-
+    
     function displayTroubleshoot() {
       const terminalBody = document.getElementById('terminalBody');
       const troubleshootContent = `
         <p><span class="highlight">Troubleshoot</span> - How can we assist you?</p>
         <p>1. Issue with desktop interface</p>
         <p>2. Performance issues</p>
-        <p>3. Other problems</p>
+        <p>3. Issue with taskbar</p>
+        <p>4. Issue with Backgrounds</p>
+        <p>5. Facing Network Load</p>
+        <p>6. Facing Issue with app opening</p>
         <p>Type the number of the issue you are experiencing.</p>
       `;
       terminalBody.innerHTML += troubleshootContent;
+      commandInput.placeholder = "Enter issue number...";
+      commandInput.focus();
+      inTroubleshootMode = true; // Set the flag to true
     }
+    
+    
+        //  =======================================================mobile prohibit==========================================
+
+// Detect if the user is accessing from a mobile device
+function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// Redirect if the user is accessing from a mobile device
+function redirectIfMobile() {
+    if (isMobile()) {
+        // Redirect to a different page
+        window.location.href = "unsupport.html";
+    }
+}
+
+// Call the function to check and redirect on page load
+window.onload = redirectIfMobile;
+
+
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    window.location.href = "unsupport.html";
+}
   </script>
 </body>
 </html>
